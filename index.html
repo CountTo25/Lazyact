@@ -1,0 +1,20 @@
+<script src='lazyact.js'></script>
+
+<body>
+    <div
+        bind
+        on='tick'
+        to='html'
+        source='count'
+        template='Count: %value%'
+    >Count:</div>
+</body>
+
+<script>
+    let data = {
+        count: 0,
+    }
+    let lz = new Lazyact(function(){return data}, 1000);
+    data.count++;
+    setInterval(()=>{data.count++}, 1000);
+</script>
