@@ -2,19 +2,70 @@
 
 <body>
     <div
-        bind
-        on='tick'
+	   bind
+       source='pagename'
+       ></div>
+    <div
+	    bind
         to='html'
-        source='count'
-        template='Count: %value%'
-    >Count:</div>
+        source='randomMessages.hello()'
+    ></div>
+    <div
+	   bind
+       on='tick'
+       to='html'
+       template='Time spent watching timer: %value%'
+       source='timeSpent'
+    ></div>
+
+    <!-- more section -->
+    <!-- bind to -->
+    <div bind to='style' source='color()' template='color: %value%'>I'm changing colors!</div>
+    <!-- repeaters -->
+    <div
+        iterate="teamMembers" object
+    >
+    <span>Made by: <span>
+    <span repeatable>
+        <span
+            bind repeat
+            to="html"
+            source="repeatable.knownas"
+        ></span>
+        <span
+            bind repeat
+            to="html"
+            source="repeatable.tagline"
+            template = " — %value%"
+        ></span>
+    </span>
+    </div>
 </body>
 
 <script>
-    let data = {
-        count: 0,
+    let uiData = {
+        pagename: 'Super Serious Company LLC Homepage',
+        timeSpent: 0,
+        randomMessages: {
+            hello: () => {
+                let a = ['hi', 'hello', 'hey', 'heyah', 'sup'];
+                return a[~~(Math.random()*(a.length-1))];
+            }
+        }
     }
-    let lz = new Lazyact(function(){return data}, 1000);
-    data.count++;
-    setInterval(()=>{data.count++}, 1000);
+
+    let callMeWhatever = function() {return uiData}
+    let lz = new Lazyact(callMeWhatever, 1000);
+    setInterval(()=>{uiData.timeSpent++}, 1000);
+
+    //more section
+    ////bind to
+    uiData.color = ()=>{return '#'+Math.floor(Math.random()*16777215).toString(16)};
+    ////repeaters
+    uiData.teamMembers = {
+                me: {knownas:'CountTo25', tagline: 'me'},
+                myCat: {knownas:'Captain', tagline: 'my cat'},
+            }
+    //prevent jarring loadup of stuff from 'more' section
+    lz.tick();
 </script>
