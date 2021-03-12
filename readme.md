@@ -97,6 +97,12 @@ You can iterate trough an object (array coming rather soon, i just wanna sleep a
   </span>
   </div>
 ```
+```javascript
+uiData.teamMembers = {
+  me: {knownas:'CountTo25', tagline: 'me'},
+  myCat: {knownas:'Captain', tagline: 'my cat'},
+}
+```
 
 ## TODO
 Arrays, more documentation
